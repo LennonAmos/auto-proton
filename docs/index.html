@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Auto-Proton selects installed Proton versions for Steam games using ProtonDB reports.">
+<title>Auto-Proton</title>
+<style>
+:root { color-scheme: light dark; font: 16px/1.6 system-ui, sans-serif; }
+body { max-width: 720px; margin: 48px auto; padding: 0 22px 32px; }
+h1 { font-size: 30px; margin-bottom: 8px; }
+h2 { font-size: 20px; margin: 32px 0 10px; }
+a { color: light-dark(#1557a0, #8ebeff); text-underline-offset: 3px; }
+nav { display: flex; gap: 20px; flex-wrap: wrap; margin: 22px 0 30px; }
+pre { padding: 14px 18px; background: light-dark(#f2f3f5, #23262b); border: 1px solid light-dark(#d7dbe0, #42464f); border-radius: 4px; overflow-x: auto; font-size: 14px; }
+code { font-family: ui-monospace, monospace; }
+li { margin: 7px 0; }
+footer { border-top: 1px solid light-dark(#ddd, #444); margin-top: 36px; padding-top: 16px; font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Auto-Proton</h1>
+<p>Selects an installed Proton version for each Steam game using recent ProtonDB reports. Native Linux games use the native version by default.</p>
+<nav aria-label="Project links">
+<a href="https://github.com/LennonAmos/auto-proton/releases/latest/download/auto-proton-linux.tar.gz">Download for Linux</a>
+<a href="https://github.com/LennonAmos/auto-proton">Source code</a>
+<a href="https://github.com/LennonAmos/auto-proton/releases/latest">Release and checksums</a>
+</nav>
+<h2>Install or update</h2>
+<p>Requires Python 3.10 or newer and a systemd user session. Download the archive, then run:</p>
+<pre><code>tar -xzf auto-proton-linux.tar.gz
+cd auto-proton
+sh install.sh</code></pre>
+<p>Running the installer again updates Auto-Proton and keeps your settings. Steam may need one normal restart when installing for the first time.</p>
+<h2>Compatibility settings</h2>
+<ul>
+<li>Checks your library about every two minutes</li>
+<li>Uses Proton versions already installed on your computer</li>
+<li>Keeps the current setting when reports do not support a choice</li>
+<li>Adds an <strong>Override Auto-Proton</strong> checkbox in <strong>Properties → Compatibility</strong> so you can select a version manually</li>
+</ul>
+<h2>Uninstall</h2>
+<pre><code>~/.local/bin/auto-proton-uninstall</code></pre>
+<p>Removes Auto-Proton's installed files, services, preferences and cache. Steam's current compatibility settings stay in place.</p>
+<footer>MIT license · Independent of Valve and ProtonDB · <a href="https://github.com/LennonAmos/auto-proton#readme">Documentation</a></footer>
+</main>
+</body>
+</html>
