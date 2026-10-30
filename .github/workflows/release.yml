@@ -1,0 +1,37 @@
+name: Package release
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag
+        required: true
+        default: v0.2.0
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python -B -m unittest discover -s tests -v
+      - name: Assemble complete Linux bundle
+        shell: bash
+        run: |
+          mkdir -p package/auto-proton artifacts
+          cp auto_proton.py live_steam.py lifecycle.py preferences.py ui_daemon.py ui.js install.sh uninstall.sh README.md LICENSE package/auto-proton/
+          cp -r tests package/auto-proton/
+          tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner -czf artifacts/auto-proton-linux.tar.gz -C package auto-proton
+          cd artifacts
+          sha256sum auto-proton-linux.tar.gz > SHA256SUMS
+      - name: Attach release downloads
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: gh release upload "$RELEASE_TAG" artifacts/auto-proton-linux.tar.gz artifacts/SHA256SUMS --clobber
